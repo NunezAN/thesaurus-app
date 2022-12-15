@@ -12,16 +12,19 @@ const Home: NextPage = () => {
   const getSearch = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const results = await axios.get(
-      `https://api.datamuse.com/words?ml=${searchInput.current?.value}`
-    );
-    setSearchResults(results.data);
-    console.log("Searching...", searchInput.current?.value);
+    if (searchInput.current?.value.split(" ").length > 1) {
+      alert("Please enter only one word at a time");
+    } else {
+      const results = await axios.get(
+        `https://api.datamuse.com/words?ml=${searchInput.current?.value}`
+      );
+      setSearchResults(results.data);
+    }
   };
   return (
     <div className="flex min-h-screen min-w-max flex-col">
       <form
-        className="p-4 bg-slate-600 h-fit w-[80%] mx-auto my-12 rounded-2xl flex flex-col items-center space-y-4"
+        className="p-4 bg-slate-600 h-fit max-w-7xl w-[80%] mx-auto my-12 rounded-2xl flex flex-col items-center space-y-4"
         onSubmit={(e) => getSearch(e)}
       >
         <label className="text-2xl text-white">Enter a word :</label>
@@ -37,7 +40,7 @@ const Home: NextPage = () => {
           Submit
         </button>
       </form>
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 gap-2 w-[80%] grid-cols-2 mx-auto">
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 gap-2 max-w-7xl w-[80%] grid-cols-2 mx-auto">
         {searchResults &&
           searchResults.map((result) => (
             <div className="p-2">
