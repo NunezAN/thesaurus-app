@@ -18,6 +18,9 @@ const Home: NextPage = () => {
       const results = await axios.get(
         `https://api.datamuse.com/words?ml=${searchInput.current?.value}`
       );
+      if (results.data.length == 0) {
+        alert("No Results Found");
+      }
       setSearchResults(results.data);
     }
   };
